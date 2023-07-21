@@ -1,0 +1,32 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# php artisan insights
+
+# Define color codes
+RED='\033[0;31m'
+YELLOW='\033[0;33m'
+GREEN='\033[0;32m'
+NC='\033[0m' # No Color
+
+STAGED_PHP_FILES=$(git diff --cached --name-only --diff-filter=ACMR -- '*.php')
+STAGED_OTHER_FILES=$(git diff --cached --name-only --diff-filter=ACMR)
+
+if [ -n "$STAGED_PHP_FILES" ]; then
+    # Run PHP Insights and capture output
+    echo "${GREEN}\nRunning code quality analysis...${NC}"
+    INSIGHTS_OUTPUT=$(php artisan insights -- $STAGED_PHP_FILES)
+
+    echo "$INSIGHTS_OUTPUT"
+
+    echo "${GREEN}Committing...\n\n${NC}"
+
+    # If average score is greater than or equal to 85, continue with commit
+    exit 0
+elif [ -n "$STAGED_OTHER_FILES" ]; then
+    echo "${YELLOW}\nNo PHP files staged, skipping static code and code quality analysis.\n${NC}"
+    exit 0
+else
+    echo "${YELLOW}\nNo staged files. Nothing to commit.\n${NC}"
+    exit 1
+fi
