@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EquipmentUpdateRequest extends FormRequest
+class PaymentTypeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,12 +22,7 @@ class EquipmentUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'purchase_date' => 'required|date',
-            'warranty_expiry_date' => 'nullable|date',
-            'cost_price' => 'required|numeric',
-            'selling_price' => 'required|numeric',
-            'notes' => 'nullable|string',
-            'photo' => 'nullable|image|mimes:jpg,jpeg,png',
+            'name' => 'required|string|max:255',
         ];
     }
 }

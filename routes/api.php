@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\V1\AnalyticsController;
 use App\Http\Controllers\V1\AuthController;
 use App\Http\Controllers\V1\CheckoutController;
 use App\Http\Controllers\V1\BillingController;
@@ -36,8 +35,9 @@ Route::prefix('auth')->group(function () {
     Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 });
 
-Route::apiResource('categories', CategoryController::class);
-Route::apiResource('products', ProductController::class);
+Route::apiResource('categories', CategoryController::class)->only(['index', 'show']);
+Route::apiResource('products', ProductController::class)->only(['index', 'show']);
+Route::apiResource('payment-types', PaymentTypeController::class)->only(['index', 'show']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('roles', RoleController::class)->only(['index']);
@@ -47,6 +47,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('users/{id}/role', [UserController::class, 'updateRole']);
     Route::patch('users/update/password', [UserController::class, 'updatePassword']);
 
+    Route::apiResource('categories', CategoryController::class);
+    Route::apiResource('products', ProductController::class);
+    Route::apiResource('payment-types', PaymentTypeController::class);
     Route::apiResource('billing', BillingController::class);
     Route::apiResource('suppliers', SupplierController::class);
 
@@ -55,12 +58,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('checkout', [CheckoutController::class, 'checkout']);
     Route::post('checkout/{invoiceId}/otp', [CheckoutController::class, 'checkoutOtp']);
 
-    Route::prefix('analytics')->group(function () {
-        Route::get('stock-stats', [AnalyticsController::class, 'stockStats']);
-        Route::get('weekly-monthly-stats', [AnalyticsController::class, 'weeklyMonthlyStats']);
-        Route::get('quarter-revenue-expense-stats', [AnalyticsController::class, 'quarterRevenueExpenseStats']);
-    });
-
     Route::apiResource('orders', OrderController::class)->only(['index', 'show']);
-    Route::get('my-invoices', [OrderController::class, 'myOrders']);
+    Route::get('my-orders', [OrderController::class, 'myOrders']);
 });

@@ -32,8 +32,7 @@ class ProductRequest extends FormRequest
         ];
 
         if ($this->isMethod('PATCH')) {
-            $productId = $this->route('product');
-            $rules['barcode'] .= ',' . $productId;
+            unset($rules['barcode']);
         }
 
         return $rules;

@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\V1;
 
-use App\Services\InvoiceService;
+use App\Services\OrderService;
 use Illuminate\Http\Request;
 
 class OrderController extends BaseController
 {
     protected $service;
 
-    public function __construct(InvoiceService $service)
+    public function __construct(OrderService $service)
     {
         $this->service = $service;
     }
@@ -28,15 +28,15 @@ class OrderController extends BaseController
     public function show(string $id)
     {
         // Check Payments status
-        $this->service->checkPaymentsStatus($id);
+        $this->service->checkPaymentStatus($id);
 
         $response = $this->service->findOne($id);
 
         return $this->apiResponse($response);
     }
 
-    public function mySales()
+    public function myOrders()
     {
-        return $this->service->getMySales(request()->for);
+        return $this->service->getMyOrders(request()->for);
     }
 }

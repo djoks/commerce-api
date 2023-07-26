@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserCreateRequest extends FormRequest
+class UserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,11 +21,21 @@ class UserCreateRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'name' => 'required|string',
             'email' => 'required_without:phone|email|unique:users,email',
             'phone' => 'required_without:email|string|unique:users,phone|size:10',
             'password' => 'required|confirmed'
         ];
+
+        if ($this->isMethod('PATCH')) {
+            $id = $this->route('user');
+
+            $rules['email'] = $rules['email'] . ',' . $id;
+            $rules['phone'] = $rules['phone'] . ',' . $id;
+            $rules['role'] = 'required';
+        }
+
+        return $rules;
     }
 }

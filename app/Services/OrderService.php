@@ -2,18 +2,18 @@
 
 namespace App\Services;
 
-use App\Http\Resources\InvoiceResource;
-use App\Models\Invoice;
+use App\Http\Resources\OrderResource;
+use App\Models\Order;
 use App\Traits\Payable;
 use Throwable;
 
-class InvoiceService extends BaseService
+class OrderService extends BaseService
 {
     use Payable;
 
-    protected $model = Invoice::class;
+    protected $model = Order::class;
 
-    protected $resource = InvoiceResource::class;
+    protected $resource = OrderResource::class;
 
     protected $relationships = [
         'items',
@@ -36,7 +36,7 @@ class InvoiceService extends BaseService
         return $this->resource::collection($data);
     }
 
-    public function checkPaymentsStatus($invoiceId)
+    public function checkPaymentStatus($invoiceId)
     {
         try {
             $invoice = $this->model::find($invoiceId);
@@ -49,7 +49,7 @@ class InvoiceService extends BaseService
         }
     }
 
-    public function getMySales($for = 'today')
+    public function getMyOrders($for = 'today')
     {
         $data = $this->model::latest()
             ->with($this->relationships)

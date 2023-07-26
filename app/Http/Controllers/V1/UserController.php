@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\V1;
 
 use App\Http\Requests\UpdatePasswordRequest;
-use App\Http\Requests\UserCreateRequest;
+use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserRoleRequest;
 use App\Http\Requests\UserStatusRequest;
-use App\Http\Requests\UserUpdateRequest;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 
@@ -30,7 +29,7 @@ class UserController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(UserCreateRequest $request)
+    public function store(UserRequest $request)
     {
         $response = $this->service->create((object) $request->all());
 
@@ -50,7 +49,7 @@ class UserController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(UserUpdateRequest $request, string $id)
+    public function update(UserRequest $request, string $id)
     {
         $response = $this->service->update($id, (object) $request->all());
 
