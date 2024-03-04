@@ -15,7 +15,7 @@ class AuthController extends BaseController
     /**
      * @var AuthService The authentication service instance.
      */
-    protected AuthService $service;
+    protected $service;
 
     /**
      * Create a new AuthController instance.

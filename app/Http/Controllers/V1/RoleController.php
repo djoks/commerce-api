@@ -12,7 +12,7 @@ class RoleController extends BaseController
     /**
      * @var RoleService Holds the service instance for managing role operations.
      */
-    protected RoleService $service;
+    protected $service;
 
     /**
      * Initializes a new instance of the RoleController class.

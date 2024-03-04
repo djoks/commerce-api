@@ -14,7 +14,7 @@ class OrderController extends BaseController
     /**
      * @var OrderService The service responsible for handling order operations.
      */
-    protected OrderService $service;
+    protected $service;
 
     /**
      * Initializes a new instance of the OrderController class.

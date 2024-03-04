@@ -15,7 +15,7 @@ class BillingController extends BaseController
     /**
      * @var BillingService The service handling business logic for billing operations.
      */
-    protected BillingService $service;
+    protected $service;
 
     /**
      * Initializes a new instance of the BillingController class with the necessary service.

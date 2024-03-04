@@ -13,7 +13,7 @@ class DiscountController extends BaseController
     /**
      * @var DiscountService Holds the service instance for managing discount operations.
      */
-    protected DiscountService $service;
+    protected $service;
 
     /**
      * Constructor for the DiscountController.

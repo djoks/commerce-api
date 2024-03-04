@@ -16,7 +16,7 @@ class PaymentTypeController extends BaseController
      *
      * @var PaymentTypeService
      */
-    protected PaymentTypeService $service;
+    protected $service;
 
     /**
      * Initializes a new instance of the PaymentTypeController class.

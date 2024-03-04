@@ -14,7 +14,7 @@ class CheckoutController extends BaseController
     /**
      * @var CheckoutService Holds the service instance for checkout operations.
      */
-    protected CheckoutService $service;
+    protected $service;
 
     /**
      * Constructor for the CheckoutController.

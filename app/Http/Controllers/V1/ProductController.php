@@ -17,7 +17,7 @@ class ProductController extends BaseController
     /**
      * @var ProductService Holds the service instance for managing product operations.
      */
-    protected ProductService $service;
+    protected $service;
 
     /**
      * Initializes a new instance of the ProductController class.

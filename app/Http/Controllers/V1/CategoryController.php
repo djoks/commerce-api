@@ -13,7 +13,7 @@ class CategoryController extends BaseController
     /**
      * @var CategoryService Holds the service instance for category operations.
      */
-    protected CategoryService $service;
+    protected $service;
 
     /**
      * Constructor for the CategoryController.

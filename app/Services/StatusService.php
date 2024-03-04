@@ -2,8 +2,16 @@
 
 namespace App\Services;
 
+/**
+ * Provides services related to managing statuses for products and payments.
+ */
 class StatusService
 {
+    /**
+     * Retrieves possible product statuses and their allowed transitions.
+     *
+     * @return array An associative array of product statuses and their transitions.
+     */
     public function getProductStatuses()
     {
         return [
@@ -27,6 +35,11 @@ class StatusService
         ];
     }
 
+    /**
+     * Retrieves possible payment statuses and their allowed transitions.
+     *
+     * @return array An associative array of payment statuses and their transitions.
+     */
     public function getPaymentStatuses()
     {
         return [

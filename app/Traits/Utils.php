@@ -6,8 +6,18 @@ use App\Models\Order;
 use Illuminate\Support\Carbon;
 use App\Models\OtpVerification;
 
+/**
+ * Provides utility methods for various operations like generating random numbers, order numbers, 
+ * Ghanaian phone numbers, and OTPs.
+ */
 trait Utils
 {
+    /**
+     * Generates a string of random numbers of a specified length.
+     *
+     * @param int $count The length of the random number string to generate.
+     * @return string A string of random numbers.
+     */
     public function getRandomNumbers(int $count): string
     {
         $numbers = range(0, 9);
@@ -16,6 +26,11 @@ trait Utils
         return implode('', array_slice($numbers, 0, $count));
     }
 
+    /**
+     * Generates a unique order number based on the latest order and the current year.
+     *
+     * @return string A unique order number in the format INV-YYYY-XXXX.
+     */
     public function generateOrderNo(): string
     {
         // Format: INV-2021-0001
@@ -30,6 +45,11 @@ trait Utils
         return 'INV-' . $year . '-' . $lastOrderNo;
     }
 
+    /**
+     * Generates a random Ghanaian phone number using common prefixes.
+     *
+     * @return string A random Ghanaian phone number.
+     */
     public function generateGhanaianPhoneNumber(): string
     {
         // Generate a random Ghanaian phone number
@@ -40,6 +60,13 @@ trait Utils
         return $prefix . $number;
     }
 
+    /**
+     * Generates a One-Time Password (OTP) of a specified length, saves it with an expiration time, and returns it.
+     *
+     * @param string $email The email address to associate with the OTP.
+     * @param int $length The length of the OTP. This parameter is set but not used in the current implementation.
+     * @return string A 6-digit OTP.
+     */
     public function generateOtp(string $email, int $length): string
     {
         // Generate a 6-digit random OTP

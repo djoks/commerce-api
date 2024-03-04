@@ -9,14 +9,28 @@ use App\Traits\Utils;
 use Illuminate\Support\Facades\Hash;
 use Throwable;
 
+/**
+ * Provides services for managing user entities.
+ */
 class UserService extends BaseService
 {
     use Utils;
 
+    /**
+     * @var string The model this service pertains to.
+     */
     protected $model = User::class;
 
+    /**
+     * @var string The resource class used for transforming user models into standardized API responses.
+     */
     protected $resource = UserResource::class;
 
+    /**
+     * Retrieves a paginated list of users, including search and filter capabilities.
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection Returns a collection of user records as a resource collection.
+     */
     public function get()
     {
         $users = $this->model::orderBy('id', 'desc')
@@ -26,6 +40,13 @@ class UserService extends BaseService
         return $this->resource::collection($users);
     }
 
+    /**
+     * Updates the role of a specific user.
+     *
+     * @param string $id The ID of the user.
+     * @param mixed $role The new role to be assigned to the user.
+     * @return ApiResponse Returns ApiResponse indicating the result of the role update operation.
+     */
     public function updateRole(string $id, mixed $role)
     {
         try {
@@ -38,6 +59,13 @@ class UserService extends BaseService
         }
     }
 
+    /**
+     * Updates the password for a specific user.
+     *
+     * @param string $id The ID of the user.
+     * @param object $payload The new password and current password for verification.
+     * @return ApiResponse Returns ApiResponse indicating the result of the password update operation.
+     */
     public function updatePassword(string $id, object $payload)
     {
         try {
@@ -58,6 +86,12 @@ class UserService extends BaseService
         }
     }
 
+    /**
+     * Creates a new user with the provided details.
+     *
+     * @param mixed $payload Data necessary for creating a new user.
+     * @return ApiResponse Returns ApiResponse with user details on success or error message on failure.
+     */
     public function create(mixed $payload)
     {
         try {
@@ -75,6 +109,13 @@ class UserService extends BaseService
         }
     }
 
+    /**
+     * Updates a user with the provided details.
+     *
+     * @param string $id The ID of the user to be updated.
+     * @param mixed $payload Data for updating the user.
+     * @return ApiResponse Returns ApiResponse indicating the result of the user update operation.
+     */
     public function update(string $id, mixed $payload)
     {
         try {

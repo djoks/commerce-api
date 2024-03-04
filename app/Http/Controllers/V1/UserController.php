@@ -18,7 +18,7 @@ class UserController extends BaseController
     /**
      * @var UserService Holds the service instance for managing user operations.
      */
-    protected UserService $service;
+    protected $service;
 
     /**
      * Initializes a new instance of the UserController class.

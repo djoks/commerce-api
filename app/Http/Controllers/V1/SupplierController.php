@@ -16,7 +16,7 @@ class SupplierController extends BaseController
     /**
      * @var SupplierService Holds the service instance for managing supplier operations.
      */
-    protected SupplierService $service;
+    protected $service;
 
     /**
      * Initializes a new instance of the SupplierController class.
