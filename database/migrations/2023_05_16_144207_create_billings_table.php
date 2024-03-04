@@ -11,7 +11,6 @@ return new class extends Migration
         Schema::create('billings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('customer_id')->constrained('users');
-            $table->foreignId('payment_type_id')->constrained();
             $table->string('first_name');
             $table->string('last_name');
             $table->string('street_address');

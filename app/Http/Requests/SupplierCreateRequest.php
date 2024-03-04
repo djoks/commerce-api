@@ -31,9 +31,4 @@ class SupplierCreateRequest extends FormRequest
             'contact_person_email' => 'required|email',
         ];
     }
-
-    public function prepareForValidation()
-    {
-        $this->merge(['branch_id' => $this->_branch_id]);
-    }
 }

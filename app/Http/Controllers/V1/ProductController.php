@@ -8,55 +8,83 @@ use App\Http\Requests\ProductRequest;
 use App\Http\Requests\EquipmentCreateRequest;
 use App\Http\Requests\EquipmentUpdateRequest;
 
+/**
+ * Manages product operations within the e-commerce API, including listing, creating,
+ * viewing, updating, and deleting products.
+ */
 class ProductController extends BaseController
 {
-    protected $service;
+    /**
+     * @var ProductService Holds the service instance for managing product operations.
+     */
+    protected ProductService $service;
 
+    /**
+     * Initializes a new instance of the ProductController class.
+     *
+     * @param ProductService $service Injected service for managing products.
+     */
     public function __construct(ProductService $service)
     {
         $this->service = $service;
     }
 
     /**
-     * Display a listing of the resource.
+     * Retrieves a list of all products.
+     *
+     * @param Request $request The request object, potentially containing filters and pagination.
+     * @return \Illuminate\Http\Response Returns the API response with a list of products.
      */
     public function index(Request $request)
     {
-        return $this->service->get($request->_branch_id);
+        return $this->service->get();
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Creates a new product with the provided details.
+     *
+     * @param ProductRequest $request The request object containing the details for the new product.
+     * @return \Illuminate\Http\Response Returns the API response with the result of the product creation.
      */
     public function store(ProductRequest $request)
     {
-        $response = $this->service->create((object) $request->all());
+        $response = $this->service->create((object) $request->validated());
 
         return $this->apiResponse($response);
     }
 
     /**
-     * Display the specified resource.
+     * Displays the details of a specific product identified by slug.
+     *
+     * @param string $slug The slug identifier of the product.
+     * @return \Illuminate\Http\Response Returns the API response with the details of the specified product.
      */
-    public function show(string $id)
+    public function show(string $slug)
     {
-        $response = $this->service->findOne($id);
+        $response = $this->service->findOne(slug: $slug);
 
         return $this->apiResponse($response);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Updates the details of an existing product.
+     *
+     * @param ProductRequest $request The request object containing the updated details for the product.
+     * @param string $id The unique identifier of the product to be updated.
+     * @return \Illuminate\Http\Response Returns the API response with the result of the product update.
      */
     public function update(ProductRequest $request, string $id)
     {
-        $response = $this->service->update($id, (object) $request->all());
+        $response = $this->service->update($id, (object) $request->validated());
 
         return $this->apiResponse($response);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Deletes a specific product.
+     *
+     * @param string $id The unique identifier of the product to be deleted.
+     * @return \Illuminate\Http\Response Returns the API response with the result of the product deletion.
      */
     public function destroy(string $id)
     {

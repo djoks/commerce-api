@@ -6,17 +6,32 @@ use App\Http\Requests\SupplierCreateRequest;
 use App\Http\Requests\SupplierUpdateRequest;
 use App\Services\SupplierService;
 
+/**
+ * Handles supplier-related operations within the e-commerce API.
+ * Provides functionality for listing all suppliers, creating new suppliers,
+ * viewing specific suppliers, updating, and deleting suppliers.
+ */
 class SupplierController extends BaseController
 {
-    protected $service;
+    /**
+     * @var SupplierService Holds the service instance for managing supplier operations.
+     */
+    protected SupplierService $service;
 
+    /**
+     * Initializes a new instance of the SupplierController class.
+     *
+     * @param SupplierService $service Injected service for managing suppliers.
+     */
     public function __construct(SupplierService $service)
     {
         $this->service = $service;
     }
 
     /**
-     * Display a listing of the resource.
+     * Retrieves a list of all suppliers.
+     *
+     * @return \Illuminate\Http\Response Returns the API response with a list of all suppliers.
      */
     public function index()
     {
@@ -24,7 +39,10 @@ class SupplierController extends BaseController
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Creates a new supplier with the provided details.
+     *
+     * @param SupplierCreateRequest $request The request object containing the details for the new supplier.
+     * @return \Illuminate\Http\Response Returns the API response with the result of the supplier creation.
      */
     public function store(SupplierCreateRequest $request)
     {
@@ -34,7 +52,10 @@ class SupplierController extends BaseController
     }
 
     /**
-     * Display the specified resource.
+     * Displays the details of a specific supplier identified by ID.
+     *
+     * @param string $id The unique identifier of the supplier to display.
+     * @return \Illuminate\Http\Response Returns the API response with the details of the specified supplier.
      */
     public function show(string $id)
     {
@@ -44,17 +65,25 @@ class SupplierController extends BaseController
     }
 
     /**
-     * Update the specified resource in storage.
+     * Updates the details of an existing supplier.
+     *
+     * @param SupplierUpdateRequest $request The request object containing the updated details for the supplier.
+     * @param string $id The unique identifier of the supplier to be updated.
+     * @return \Illuminate\Http\Response Returns the API response with the result of the supplier update.
      */
     public function update(SupplierUpdateRequest $request, string $id)
     {
-        $response = $this->service->update($id, (object) $request->all());
+        $response = $this->service->update($id, (object) $request->validated());
 
         return $this->apiResponse($response);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Updates the details of an existing supplier.
+     *
+     * @param SupplierUpdateRequest $request The request object containing the updated details for the supplier.
+     * @param string $id The unique identifier of the supplier to be updated.
+     * @return \Illuminate\Http\Response Returns the API response with the result of the supplier update.
      */
     public function destroy(string $id)
     {

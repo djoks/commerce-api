@@ -2,41 +2,55 @@
 
 namespace App\Services;
 
-use App\Http\Resources\InvoiceResource;
-use App\Models\ApiResponse;
-use App\Models\Discount;
-use App\Models\Equipment;
-use App\Models\Invoice;
-use App\Traits\Notifiable;
-use App\Traits\Payable;
-use App\Traits\Utils;
-use Illuminate\Support\Facades\DB;
 use Throwable;
+use App\Traits\Utils;
+use App\Models\Order;
+use App\Traits\Payable;
+use App\Models\Discount;
+use App\Models\Product;
+use App\Models\ApiResponse;
+use App\Traits\Broadcastable;
+use Illuminate\Support\Facades\DB;
+use App\Http\Resources\OrderResource;
+use App\Models\PaymentType;
 
+/**
+ * Provides checkout services for processing orders, including calculating totals, handling discounts, and managing payment methods.
+ */
 class CheckoutService extends BaseService
 {
-    use Utils, Payable, Notifiable;
+    use Utils, Payable, Broadcastable;
 
-    protected $model = Invoice::class;
+    /**
+     * @var string The model this service pertains to.
+     */
+    protected $model = Order::class;
 
-    protected $resource = InvoiceResource::class;
+    /**
+     * @var string The resource class used for transforming order models into standardized API responses.
+     */
+    protected $resource = OrderResource::class;
 
+    /**
+     * Processes the checkout operation, creating orders, handling item stock, applying discounts, and initiating payment.
+     *
+     * @param mixed $payload Data necessary for completing the checkout process.
+     * @return ApiResponse Returns ApiResponse with order and payment details on success, or error message on failure.
+     */
     public function checkout(mixed $payload)
     {
         try {
             DB::beginTransaction();
-            $isLease = !is_null($payload->lease);
             $subtotal = 0;
             $discount = 0;
             $tax = 0;
             $total = 0;
 
-            // Create invoice
-            $invoice = $this->model::create([
-                'client_id' => $payload->client_id,
-                'branch_id' => auth()->user()->branch_id,
-                'creator_id' => auth()->id(),
-                'number' => $this->generateInvoiceNo(),
+            // Create order
+            $order = $this->model::create([
+                'customer_id' => $payload->customer_id,
+                'billing_id' => $payload->billing_id,
+                'code' => $this->generateOrderNo(),
                 'sub_total' => $subtotal,
                 'discount' => $discount,
                 'tax' => $tax,
@@ -44,38 +58,37 @@ class CheckoutService extends BaseService
                 'due_at' => now()->addDays(7),
             ]);
 
-            // Create lease if it is a lease
-            if ($isLease) {
-                $lease = (object) $payload->lease;
-
-                $invoice->lease()->create([
-                    'client_id' => $payload->client_id,
-                    'starts_at' => $lease->start_date,
-                    'ends_at' => $lease->end_date,
-                ]);
-            }
+            $paymentType = PaymentType::find($payload->payment_type_id);
 
             foreach ($payload->items as $item) {
                 $item = (object) $item;
 
-                $equipment = Equipment::find($item->equipment_id);
-                $availableStock = $equipment->availableStocks();
-                $quantityRequired = $item->quantity;
+                $product = Product::withAvailableStock()->whereId($item->product_id)->first();
+                $availableStock = $product->stock;
 
-                $choosenStocks = $availableStock->take($quantityRequired)->get();
+                $quantity = $item->quantity;
 
-                foreach ($choosenStocks as $stock) {
-                    $price = $isLease ? $equipment->lease_price * $invoice->lease->days : $equipment->selling_price;
-                    $status = $isLease ? 'Leased' : 'Sold';
+                foreach ($availableStock as $stock) {
+                    $price = $product->selling_price;
 
-                    $stock->status()->transitionTo($status);
-                    $invoice->items()->create([
-                        'equipment_id' => $equipment->id,
-                        'equipment_stock_id' => $stock->id,
+                    $order->items()->create([
+                        'product_id' => $product->id,
+                        'quantity' => $stock->id,
                         'price' => $price,
                     ]);
 
                     $total += $price;
+
+                    $stock->available_quantity -= $quantity;
+
+                    if ($stock->available_quantity < 0) {
+                        $quantity -= $stock->available_quantity;
+                        $stock->available_quantity = 0;
+                    } else {
+                        $quantity = 0;
+                    }
+
+                    $stock->save();
                 }
             }
 
@@ -88,44 +101,41 @@ class CheckoutService extends BaseService
                     $total = $discount->applyDiscount($total);
                 }
 
-                $invoice->update([
+                $order->update([
                     'metadata' => [
                         'discounts' => $payload->discounts,
                     ],
                 ]);
             }
 
-            $invoice->update([
+            $order->update([
                 'discount' => $subtotal - $total,
                 'sub_total' => $subtotal,
                 'total' => $total,
             ]);
 
             // Create payment
-            if ($payload->payment_method === 'cash') {
-                $this->payWithCash($invoice);
+            if ($paymentType->name === 'Cash') {
+                $this->payWithCash($order);
             } else {
-                $this->payWithMomo($invoice, $payload->phone, $payload->network);
+                $this->payWithMomo($order, $payload->phone, $payload->msisdn);
             }
-            $invoice = $invoice->fresh()->load([
+
+            $order = $order->fresh()->load([
                 'items',
-                'client',
-                'payments',
-                'lease',
-                'items.equipment',
-                'items.equipmentStock',
+                'customer',
+                'payment',
+                'items.order',
+                'items.product',
             ]);
 
-            $payment = optional($invoice->payments())->first() ?? null;
+            $payment = optional($order->payment()) ?? null;
 
             DB::commit();
 
-            $this->notifyItemSold($invoice);
-            (new InventoryTrackerService())->doChecks();
-
             return new ApiResponse('Checkout successful', 200, [
                 'payment' => $payment,
-                'invoice' => $this->resource::make($invoice),
+                'order' => $this->resource::make($order),
             ]);
         } catch (Throwable $e) {
             logger($e->getMessage() . ' ' . $e->getLine() . ' ' . $e->getFile());
@@ -135,12 +145,19 @@ class CheckoutService extends BaseService
         }
     }
 
+    /**
+     * Handles OTP verification for order payment processing.
+     *
+     * @param mixed $invoiceId The ID of the invoice for which the OTP is to be verified.
+     * @param mixed $payload Data including the OTP for verification.
+     * @return ApiResponse Returns ApiResponse indicating the result of the OTP verification process.
+     */
     public function checkoutOtp($invoiceId, mixed $payload)
     {
         try {
-            $invoice = $this->model::find($invoiceId);
-            $payment = $invoice->payments()->first();
-            $reference = $payment->transaction_id;
+            $order = $this->model::find($invoiceId);
+            $payment = $order->payment();
+            $reference = $payment->reference;
 
             $params = (object) [
                 'reference' => $reference,

@@ -25,7 +25,8 @@ class UserRequest extends FormRequest
             'name' => 'required|string',
             'email' => 'required_without:phone|email|unique:users,email',
             'phone' => 'required_without:email|string|unique:users,phone|size:10',
-            'password' => 'required|confirmed'
+            'password' => 'required|confirmed',
+            'role' => 'required|string'
         ];
 
         if ($this->isMethod('PATCH')) {

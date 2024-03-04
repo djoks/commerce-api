@@ -100,6 +100,7 @@ class OrderSeeder extends Seeder
 
             Payment::create([
                 'order_id' => $order->id,
+                'type' => 'cash',
                 'reference' => Str::upper(Str::random(12)),
                 'status' => 'Paid',
                 'meta' => null,
@@ -112,7 +113,7 @@ class OrderSeeder extends Seeder
     private function generateRandomDate()
     {
         // Generate a random date between now and 12 months ago
-        $startDate = Carbon::now()->subMonths(6);
+        $startDate = Carbon::now()->subMonths(2);
         $endDate = Carbon::now();
 
         return Carbon::createFromTimestamp(mt_rand($startDate->timestamp, $endDate->timestamp));

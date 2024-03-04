@@ -16,16 +16,13 @@ class BillingResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'phone' => $this->phone,
-            'email' => $this->email,
-            'address' => $this->address,
-            'logo' => $this->logo,
-            'contact_person_name' => $this->contact_person_name,
-            'contact_person_phone' => $this->contact_person_phone,
-            'contact_person_email' => $this->contact_person_email,
-            'created_at' => $this->created_at->toDateTimeString(),
-            'updated_at' => $this->updated_at->toDateTimeString(),
+            'first_name' => $this->first_name,
+            'last_name' => $this->last_name,
+            'street_address' => $this->street_address,
+            'city' => $this->city,
+            'state' => $this->state,
+            'country' => $this->country,
+            'is_default' => $this->is_default
         ];
     }
 }

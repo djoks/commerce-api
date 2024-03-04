@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 class DiscountTest extends BaseTest
 {
-    private $url = '/discounts';
+    private $url = '/admin/discounts';
 
     /**
      * @test

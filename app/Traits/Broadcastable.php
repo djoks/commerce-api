@@ -24,22 +24,6 @@ trait Broadcastable
         }
     }
 
-    public static function notifyClientAcquired($client)
-    {
-        try {
-            $payload = [
-                'title' => 'New Client Acquired',
-                'body' => 'A new client ' . $client->name . ' has been acquired',
-                'type' => 'client_acquired',
-                'metadata' => [],
-            ];
-
-            self::sendNotify($payload);
-        } catch (Throwable $th) {
-            logger('Error sending notification for client acquired: ' . $th->getMessage());
-        }
-    }
-
     public static function sendNotify($data, $destination = null)
     {
         $data = (object) $data;
@@ -70,40 +54,4 @@ trait Broadcastable
             logger('Error sending notification for items sold: ' . $th->getMessage());
         }
     }
-
-    public function notifyOverdueLease($count)
-    {
-        try {
-            $payload = [
-                'title' => 'Overdue Lease',
-                'body' => 'There are ' . $count . ' equipment that have overdue leases',
-                'type' => 'overdue_lease',
-                'metadata' => [],
-            ];
-
-            $this->sendNotify($payload);
-        } catch (Throwable $th) {
-            logger('Error sending notification for items sold: ' . $th->getMessage());
-        }
-    }
-
-    public function notifyItemSold($invoice)
-    {
-        $isLease = !is_null($invoice->lease);
-
-        try {
-            $payload = [
-                'title' => $isLease ? 'Items Leased' : 'Items Sold',
-                'body' => 'New Items ' . ($isLease ? 'leased' : 'sold') . ' to ' . $invoice->client->name,
-                'type' => $isLease ? 'items_leased' : 'items_sold',
-                'metadata' => [],
-            ];
-
-            $this->sendNotify($payload);
-        } catch (Throwable $th) {
-            logger('Error sending notification for items sold: ' . $th->getMessage());
-        }
-    }
-
-    // LowStockLevel, OverdueLease
 }

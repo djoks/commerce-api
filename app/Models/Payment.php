@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Order;
 use App\StateMachines\PaymentStatusStateMachine;
 use Asantibanez\LaravelEloquentStateMachines\Traits\HasStateMachines;
 
@@ -11,7 +12,7 @@ class Payment extends BaseModel
 
     protected $fillable = [
         'invoice_id',
-        'transaction_id',
+        'reference',
         'type',
         'status',
         'metadata',
@@ -25,8 +26,8 @@ class Payment extends BaseModel
         'status' => PaymentStatusStateMachine::class,
     ];
 
-    public function invoice()
+    public function order()
     {
-        return $this->belongsTo(Invoice::class);
+        return $this->belongsTo(Order::class);
     }
 }

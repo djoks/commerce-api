@@ -17,10 +17,10 @@ class UserService extends BaseService
 
     protected $resource = UserResource::class;
 
-    public function get(?int $branchId = null)
+    public function get()
     {
-        $users = $this->model::orderBy('name', 'asc')
-            ->search(fieldNames: 'name,phone,email')
+        $users = $this->model::orderBy('id', 'desc')
+            ->search(fieldNames: 'phone,email')
             ->paged();
 
         return $this->resource::collection($users);
@@ -70,6 +70,7 @@ class UserService extends BaseService
                 'user' => $this->resource::make($user)
             ]);
         } catch (Throwable $e) {
+            logger([$e->getMessage(), $e->getLine(), $e->getFile()]);
             return new ApiResponse('Sorry, unable to create user', 500);
         }
     }

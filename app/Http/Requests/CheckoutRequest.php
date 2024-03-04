@@ -23,20 +23,23 @@ class CheckoutRequest extends FormRequest
      */
     public function rules(): array
     {
-        // if payment_method is momo, then the request should have a phone and provider
         return [
-            'client_id' => 'required|exists:clients,id',
+            'customer_id' => 'required|exists:users,id',
+            'billing_id' => 'required|exists:billings,id',
             'items' => 'required|array',
-            'items.*.equipment_id' => ['required', 'exists:equipment,id', new StockCheckRule()],
+            'items.*.product_id' => ['required', 'exists:products,id', new StockCheckRule()],
             'items.*.quantity' => 'required|integer|min:1',
-            'lease' => 'nullable|array',
-            'lease.start_date' => 'nullable|date',
-            'lease.end_date' => 'nullable|date|after:lease.start_date',
-            'payment_method' => 'required|string|in:cash,momo',
             'discounts' => ['nullable', 'array', new DiscountCheckRule()],
-
-            'phone' => 'required_if:payment_method,momo',
-            'network' => 'required_if:payment_method,momo',
+            'shipping' => 'required',
+            'shipping.first_name' => 'required|string',
+            'shipping.last_name' => 'required|string',
+            'shipping.street_address' => 'required|string',
+            'shipping.city' => 'required|string',
+            'shipping.state' => 'required|string',
+            'shipping.country' => 'required|string',
+            'payment_type_id' => 'required|exists:payment_types,id',
+            'msisdn' => 'required_if:payment_type_id,3',
+            'phone_number' => 'required_if:payment_type_id,3',
         ];
     }
 }

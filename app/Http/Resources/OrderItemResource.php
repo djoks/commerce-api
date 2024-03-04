@@ -16,7 +16,7 @@ class OrderItemResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'product' => (new ProductResource($this->equipment))->only(['id', 'name']),
+            'product' => (new ProductResource($this->product))->only(['id', 'name']),
             'price' => $this->price,
         ];
     }

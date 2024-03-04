@@ -40,7 +40,7 @@ class Order extends BaseModel
         $field = request()->status ?? $status;
 
         return $query->when(!is_null($field), function ($query) use ($field) {
-            return $query->whereHas('payments', function ($query) use ($field) {
+            return $query->whereHas('payment', function ($query) use ($field) {
                 $query->where('status', $field);
             });
         });

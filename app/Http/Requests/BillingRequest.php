@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ClientCreateRequest extends FormRequest
+class BillingRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,19 +22,13 @@ class ClientCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
-            'phone' => 'required|size:10',
-            'email' => 'required|email',
-            'address' => 'nullable|string',
-            'logo' => 'nullable|image|mimes:jpg,jpeg,png',
-            'contact_person_name' => 'required|string',
-            'contact_person_phone' => 'required|size:10',
-            'contact_person_email' => 'required|email',
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
+            'street_address' => 'required|string',
+            'city' => 'required|string',
+            'state' => 'required|string',
+            'country' => 'required|string',
+            'is_default' => 'numeric|nullable',
         ];
-    }
-
-    public function prepareForValidation()
-    {
-        $this->merge(['branch_id' => $this->_branch_id]);
     }
 }

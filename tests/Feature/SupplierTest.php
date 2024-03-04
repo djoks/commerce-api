@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 class SupplierTest extends BaseTest
 {
-    private $url = '/suppliers';
+    private $url = '/admin/suppliers';
 
     /**
      * @test

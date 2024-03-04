@@ -2,7 +2,7 @@
 
 namespace App\Rules;
 
-use App\Models\Equipment;
+use App\Models\Product;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 
@@ -17,15 +17,15 @@ class StockCheckRule implements ValidationRule
     {
         $index = explode('.', $attribute)[1];
 
-        $equipment = Equipment::find($value);
-        if ($equipment === null) {
-            $fail('Equipment does not exist');
+        $product = Product::find($value);
+        if ($product === null) {
+            $fail('Product does not exist');
         } else {
             $quantityRequired = request()->input('items.' . $index . '.quantity');
-            $currentStock = $equipment->availableStocks()->count();
+            $currentStock = $product->withAvailableStock()->count();
 
             if ($currentStock < $quantityRequired) {
-                $fail("Not enough stock for {$equipment->name}. Available stock: {$currentStock}");
+                $fail("Not enough stock for {$product->name}. Available stock: {$currentStock}");
             }
         }
     }

@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 class UserTest extends BaseTest
 {
-    private $url = '/users';
+    private $url = '/admin/users';
 
     /**
      * @test
@@ -17,7 +17,9 @@ class UserTest extends BaseTest
             'name' => 'Test User',
             'phone' => '0000000000',
             'email' => 'mail@mail.com',
-            'role' => 'accountant',
+            'role' => 'developer',
+            'password' => 'password',
+            'password_confirmation' => 'password'
         ]);
 
         $response->assertStatus(200)->assertJsonStructure($this->jsonStructure);
@@ -36,7 +38,7 @@ class UserTest extends BaseTest
     /**
      * @test
      */
-    public function getBranchUsers()
+    public function getUsers()
     {
         $this->authenticate();
         $response = $this->get($this->baseUrl . $this->url . '?page=1');
@@ -84,7 +86,7 @@ class UserTest extends BaseTest
     {
         $this->authenticate();
         $response = $this->patch($this->baseUrl . $this->url . '/1/role', [
-            'role' => 'accountant',
+            'role' => 'customer',
         ]);
         $response->assertStatus(200)->assertJsonStructure($this->jsonStructure);
     }

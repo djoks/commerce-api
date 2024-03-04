@@ -23,8 +23,8 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required_without:phone|email|unique:users,email',
-            'phone' => 'required_without:email|string|unique:users,phone|size:10',
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'required|string|unique:users,phone|size:10',
             'password' => 'required|confirmed'
         ];
     }

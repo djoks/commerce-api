@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 class RoleTest extends BaseTest
 {
-    private $url = '/roles';
+    private $url = '/admin/roles';
 
     /**
      * @test
@@ -13,7 +13,7 @@ class RoleTest extends BaseTest
     {
         $this->authenticate();
         $response = $this->get($this->baseUrl . $this->url);
-        $response->assertStatus(200)->assertJsonStructure(['data']);
+        $response->assertStatus(200)->assertJsonIsArray();
     }
 
     /**
@@ -23,6 +23,6 @@ class RoleTest extends BaseTest
     {
         $this->authenticate();
         $response = $this->get($this->baseUrl . $this->url . '?user_id=1');
-        $response->assertStatus(200)->assertJsonStructure(['data']);
+        $response->assertStatus(200)->assertJsonIsArray();
     }
 }

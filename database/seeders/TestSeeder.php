@@ -38,7 +38,6 @@ class TestSeeder extends Seeder
         // Add test client record
         Billing::create([
             'customer_id' => $user->id,
-            'payment_type_id' => PaymentType::inRandomOrder()->first()->id,
             'first_name' => $faker->firstName,
             'last_name' => $faker->lastName,
             'street_address' => $faker->streetAddress,
@@ -72,7 +71,7 @@ class TestSeeder extends Seeder
 
         Product::create([
             'category_id' => $category->id,
-            'name' => $faker->sentence(2),
+            'name' => 'Test Product',
             'barcode' => $faker->ean13,
             'cost_price' => $costPrice,
             'selling_price' => $sellingPrice,

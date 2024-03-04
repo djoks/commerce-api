@@ -11,7 +11,7 @@ class ProductService extends BaseService
 
     protected $resource = ProductResource::class;
 
-    public function get(?int $branchId = null)
+    public function get()
     {
         $data = $this->model::with(['category', 'media'])
             ->withAvailableStock()

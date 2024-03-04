@@ -12,7 +12,7 @@ class LoginTest extends BaseTest
     public function successfulResponse()
     {
         $response = $this->post($this->baseUrl . $this->url, [
-            'user' => 'headoffice@example.com',
+            'email' => 'test@example.com',
             'password' => 'password',
         ]);
 
@@ -25,7 +25,7 @@ class LoginTest extends BaseTest
     public function failedResponse()
     {
         $response = $this->post($this->baseUrl . $this->url, [
-            'user' => 'headoffice@example.com',
+            'email' => 'test@example.com',
             'password' => 'passwor',
         ]);
 

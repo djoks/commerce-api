@@ -23,33 +23,9 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user' => [
-                'required',
-                $this->isEmail() ? 'email' : 'size:10',
-                Rule::exists('users', $this->isEmail() ? 'email' : 'phone'),
-            ],
+            'email' => 'required_without:phone|email',
+            'phone' => 'required_without:email|size:10',
             'password' => 'required',
         ];
-    }
-
-    /**
-     * Get the error messages for the defined validation rules.
-     *
-     * @return array<string, string>
-     */
-    public function messages(): array
-    {
-        return [
-            'user.required' => 'An email address or phone number is required',
-            'user.email' => 'The email must be a valid email address',
-            'user.size' => 'The phone number must be 10 digits',
-            'user.exists' => $this->isEmail() ? 'The email address is invalid' : 'The phone number is invalid',
-            'password.required' => 'A password is required',
-        ];
-    }
-
-    private function isEmail(): bool
-    {
-        return filter_var($this->user, FILTER_VALIDATE_EMAIL);
     }
 }

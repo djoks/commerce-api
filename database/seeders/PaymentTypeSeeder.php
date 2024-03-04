@@ -17,7 +17,8 @@ class PaymentTypeSeeder extends Seeder
             ['name' => 'Visa'],
             ['name' => 'Master'],
             ['name' => 'Mobile Money'],
-            ['name' => 'Paypal']
+            ['name' => 'Paypal'],
+            ['name' => 'Cash']
         ];
 
         foreach ($paymentTypes as $paymentType) {

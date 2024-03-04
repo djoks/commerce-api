@@ -26,9 +26,7 @@ class DiscountRequest extends FormRequest
             'value' => 'required|numeric',
             'max_value' => 'required_if:unit,percentage|numeric',
             'unit' => 'required|string|in:percentage,ghs',
-            'notes' => 'nullable|string',
-            'min_device_count' => 'required|numeric',
-            'max_device_count' => 'nullable|numeric',
+            'notes' => 'nullable|string'
         ];
     }
 }

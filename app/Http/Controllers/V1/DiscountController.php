@@ -5,17 +5,30 @@ namespace App\Http\Controllers\V1;
 use App\Http\Requests\DiscountRequest;
 use App\Services\DiscountService;
 
+/**
+ * Manages discount operations for the e-commerce API, including listing, creating, viewing, updating, and deleting discounts.
+ */
 class DiscountController extends BaseController
 {
-    protected $service;
+    /**
+     * @var DiscountService Holds the service instance for managing discount operations.
+     */
+    protected DiscountService $service;
 
+    /**
+     * Constructor for the DiscountController.
+     * 
+     * @param DiscountService $service The discount service dependency.
+     */
     public function __construct(DiscountService $service)
     {
         $this->service = $service;
     }
 
     /**
-     * Display a listing of the resource.
+     * Retrieves a list of all discounts.
+     * 
+     * @return \Illuminate\Http\Response Returns the API response with the list of discounts.
      */
     public function index()
     {
@@ -23,17 +36,23 @@ class DiscountController extends BaseController
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Creates a new discount record with the provided details.
+     * 
+     * @param DiscountRequest $request The request object containing the details for the new discount.
+     * @return \Illuminate\Http\Response Returns the API response with the result of the discount creation.
      */
     public function store(DiscountRequest $request)
     {
-        $response = $this->service->create((object) $request->all());
+        $response = $this->service->create((object) $request->validated());
 
         return $this->apiResponse($response);
     }
 
     /**
-     * Display the specified resource.
+     * Displays the details of a specific discount.
+     * 
+     * @param string $id The unique identifier of the discount to be displayed.
+     * @return \Illuminate\Http\Response Returns the API response with the details of the specified discount.
      */
     public function show(string $id)
     {
@@ -43,17 +62,24 @@ class DiscountController extends BaseController
     }
 
     /**
-     * Update the specified resource in storage.
+     * Updates the details of an existing discount.
+     * 
+     * @param DiscountRequest $request The request object containing the updated details for the discount.
+     * @param string $id The unique identifier of the discount to be updated.
+     * @return \Illuminate\Http\Response Returns the API response with the result of the discount update.
      */
     public function update(DiscountRequest $request, string $id)
     {
-        $response = $this->service->update($id, (object) $request->all());
+        $response = $this->service->update($id, (object) $request->validated());
 
         return $this->apiResponse($response);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Deletes a specific discount.
+     * 
+     * @param string $id The unique identifier of the discount to be deleted.
+     * @return \Illuminate\Http\Response Returns the API response with the result of the discount deletion.
      */
     public function destroy(string $id)
     {

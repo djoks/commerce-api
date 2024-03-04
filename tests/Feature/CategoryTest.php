@@ -2,19 +2,20 @@
 
 namespace Tests\Feature;
 
-class EquipmentTypeTest extends BaseTest
+class CategoryTest extends BaseTest
 {
-    private $url = '/equipment-types';
+    private $adminUrl = '/admin/categories';
+    private $url = '/categories';
 
     /**
      * @test
      */
-    public function creatingTypeSuccessfully()
+    public function creatingCategorySuccessfully()
     {
         $this->authenticate();
 
-        $response = $this->post($this->baseUrl . $this->url, [
-            'name' => 'Test Type',
+        $response = $this->post($this->baseUrl . $this->adminUrl, [
+            'name' => 'Test Category',
         ]);
 
         $response->assertStatus(200)->assertJsonStructure($this->jsonStructure);
@@ -23,17 +24,17 @@ class EquipmentTypeTest extends BaseTest
     /**
      * @test
      */
-    public function creatingTypeWithValidationFailure()
+    public function creatingCategoryWithValidationFailure()
     {
         $this->authenticate();
-        $response = $this->post($this->baseUrl . $this->url, [], $this->headers);
+        $response = $this->post($this->baseUrl . $this->adminUrl, [], $this->headers);
         $response->assertStatus(422)->assertJsonStructure($this->failedValidationJsonStructure);
     }
 
     /**
      * @test
      */
-    public function getAllTypes()
+    public function getAllCategories()
     {
         $this->authenticate();
         $response = $this->get($this->baseUrl . $this->url . '?page=1');
@@ -43,30 +44,30 @@ class EquipmentTypeTest extends BaseTest
     /**
      * @test
      */
-    public function getTypeById()
+    public function getCategoryBySlug()
     {
         $this->authenticate();
-        $response = $this->get($this->baseUrl . $this->url . '/1');
+        $response = $this->get($this->baseUrl . $this->url . '/electronics');
         $response->assertStatus(200)->assertJsonStructure($this->jsonStructure);
     }
 
     /**
      * @test
      */
-    public function deletingTypeSuccessfully()
+    public function deletingCategorySuccessfully()
     {
         $this->authenticate();
-        $response = $this->delete($this->baseUrl . $this->url . '/3');
+        $response = $this->delete($this->baseUrl . $this->adminUrl . '/3');
         $response->assertStatus($response->getStatusCode());
     }
 
     /**
      * @test
      */
-    public function deletingTypeWithFailure()
+    public function deletingCategoryWithFailure()
     {
         $this->authenticate();
-        $response = $this->delete($this->baseUrl . $this->url . '/800', [], $this->headers);
+        $response = $this->delete($this->baseUrl . $this->adminUrl . '/999', [], $this->headers);
         $response->assertStatus(404);
     }
 }

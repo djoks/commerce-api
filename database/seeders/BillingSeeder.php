@@ -23,13 +23,12 @@ class BillingSeeder extends Seeder
             for ($i = 0; $i < $numAddresses; $i++) {
                 $billing = [
                     'customer_id' => $user->id,
-                    'payment_type_id' => PaymentType::inRandomOrder()->first()->id,
                     'first_name' => $faker->firstName,
                     'last_name' => $faker->lastName,
                     'street_address' => $faker->streetAddress,
                     'city' => $faker->city,
                     'state' => $faker->state,
-                    'country' => 'Ghana',
+                    'country' => 'Ghana'
                 ];
 
                 Billing::create($billing);
