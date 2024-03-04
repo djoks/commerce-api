@@ -29,7 +29,8 @@ class OrderController extends BaseController
     /**
      * Retrieves a list of all orders.
      *
-     * @return \Illuminate\Http\Response Returns the API response with a list of all orders.
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * Returns the API response with a list of all orders.
      */
     public function index()
     {
@@ -40,7 +41,7 @@ class OrderController extends BaseController
      * Displays details of a specific order identified by its unique ID.
      *
      * @param string $id The unique identifier of the order.
-     * @return \Illuminate\Http\Response Returns the API response with the details of the specified order.
+     * @return \Illuminate\Http\JsonResponse Returns the API response with the details of the specified order.
      */
     public function show(string $id)
     {
@@ -55,7 +56,7 @@ class OrderController extends BaseController
     /**
      * Retrieves orders belonging to the currently authenticated user.
      *
-     * @return \Illuminate\Http\Response Returns the API response with orders of the currently authenticated user.
+     * @return \Illuminate\Http\JsonResponse Returns the API response with orders of the currently authenticated user.
      */
     public function myOrders()
     {

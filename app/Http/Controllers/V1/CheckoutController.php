@@ -30,7 +30,7 @@ class CheckoutController extends BaseController
      * Processes a checkout operation based on the provided checkout details.
      * 
      * @param CheckoutRequest $request The request object containing the necessary details for checkout.
-     * @return \Illuminate\Http\Response Returns the API response with the result of the checkout operation.
+     * @return \Illuminate\Http\JsonResponse Returns the API response with the result of the checkout operation.
      */
     public function checkout(CheckoutRequest $request)
     {
@@ -44,7 +44,7 @@ class CheckoutController extends BaseController
      * 
      * @param string $invoiceId The unique identifier for the invoice associated with the checkout.
      * @param Request $request The request object containing the OTP to be validated.
-     * @return \Illuminate\Http\Response Returns the API response with the result of the OTP validation.
+     * @return \Illuminate\Http\JsonResponse Returns the API response with the result of the OTP validation.
      */
     public function checkoutOtp(string $invoiceId, Request $request)
     {

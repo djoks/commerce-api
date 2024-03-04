@@ -33,7 +33,8 @@ class ProductController extends BaseController
      * Retrieves a list of all products.
      *
      * @param Request $request The request object, potentially containing filters and pagination.
-     * @return \Illuminate\Http\Response Returns the API response with a list of products.
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * Returns the API response with a list of products.
      */
     public function index(Request $request)
     {
@@ -44,7 +45,7 @@ class ProductController extends BaseController
      * Creates a new product with the provided details.
      *
      * @param ProductRequest $request The request object containing the details for the new product.
-     * @return \Illuminate\Http\Response Returns the API response with the result of the product creation.
+     * @return \Illuminate\Http\JsonResponse Returns the API response with the result of the product creation.
      */
     public function store(ProductRequest $request)
     {
@@ -57,7 +58,7 @@ class ProductController extends BaseController
      * Displays the details of a specific product identified by slug.
      *
      * @param string $slug The slug identifier of the product.
-     * @return \Illuminate\Http\Response Returns the API response with the details of the specified product.
+     * @return \Illuminate\Http\JsonResponse Returns the API response with the details of the specified product.
      */
     public function show(string $slug)
     {
@@ -71,7 +72,7 @@ class ProductController extends BaseController
      *
      * @param ProductRequest $request The request object containing the updated details for the product.
      * @param string $id The unique identifier of the product to be updated.
-     * @return \Illuminate\Http\Response Returns the API response with the result of the product update.
+     * @return \Illuminate\Http\JsonResponse Returns the API response with the result of the product update.
      */
     public function update(ProductRequest $request, string $id)
     {
@@ -84,7 +85,7 @@ class ProductController extends BaseController
      * Deletes a specific product.
      *
      * @param string $id The unique identifier of the product to be deleted.
-     * @return \Illuminate\Http\Response Returns the API response with the result of the product deletion.
+     * @return \Illuminate\Http\JsonResponse Returns the API response with the result of the product deletion.
      */
     public function destroy(string $id)
     {

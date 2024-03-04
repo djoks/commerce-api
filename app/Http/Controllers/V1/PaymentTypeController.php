@@ -31,7 +31,8 @@ class PaymentTypeController extends BaseController
     /**
      * Retrieves and displays a list of all payment types.
      *
-     * @return \Illuminate\Http\Response Returns the API response containing a list of payment types.
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * Returns the API response containing a list of payment types.
      */
     public function index()
     {
@@ -42,7 +43,7 @@ class PaymentTypeController extends BaseController
      * Creates a new payment type with the given details from the request.
      *
      * @param PaymentTypeRequest $request The request containing the details for the new payment type.
-     * @return \Illuminate\Http\Response Returns the API response with the result of the creation operation.
+     * @return \Illuminate\Http\JsonResponse Returns the API response with the result of the creation operation.
      */
     public function store(PaymentTypeRequest $request)
     {
@@ -55,7 +56,7 @@ class PaymentTypeController extends BaseController
      * Displays the details of a specific payment type, identified by its unique ID.
      *
      * @param string $id The unique identifier of the payment type to be displayed.
-     * @return \Illuminate\Http\Response Returns the API response containing details of the specified payment type.
+     * @return \Illuminate\Http\JsonResponse Returns the API response containing details of the specified payment type.
      */
     public function show(string $id)
     {
@@ -69,7 +70,7 @@ class PaymentTypeController extends BaseController
      *
      * @param PaymentTypeRequest $request The request containing updated details for the payment type.
      * @param string $id The unique identifier of the payment type to be updated.
-     * @return \Illuminate\Http\Response Returns the API response with the result of the update operation.
+     * @return \Illuminate\Http\JsonResponse Returns the API response with the result of the update operation.
      */
     public function update(PaymentTypeRequest $request, string $id)
     {
@@ -82,7 +83,7 @@ class PaymentTypeController extends BaseController
      * Deletes a specific payment type, identified by its unique ID.
      *
      * @param string $id The unique identifier of the payment type to be deleted.
-     * @return \Illuminate\Http\Response Returns the API response with the result of the deletion operation.
+     * @return \Illuminate\Http\JsonResponse Returns the API response with the result of the deletion operation.
      */
     public function destroy(string $id)
     {

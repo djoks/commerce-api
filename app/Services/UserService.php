@@ -104,7 +104,6 @@ class UserService extends BaseService
                 'user' => $this->resource::make($user)
             ]);
         } catch (Throwable $e) {
-            logger([$e->getMessage(), $e->getLine(), $e->getFile()]);
             return new ApiResponse('Sorry, unable to create user', 500);
         }
     }

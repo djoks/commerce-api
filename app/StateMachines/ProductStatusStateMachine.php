@@ -5,7 +5,7 @@ namespace App\StateMachines;
 use App\Services\StatusService;
 use Asantibanez\LaravelEloquentStateMachines\StateMachines\StateMachine;
 
-class EquipmentStockStatusStateMachine extends StateMachine
+class ProductStatusStateMachine extends StateMachine
 {
     public function recordHistory(): bool
     {
@@ -14,7 +14,7 @@ class EquipmentStockStatusStateMachine extends StateMachine
 
     public function transitions(): array
     {
-        return (new StatusService())->getEquipmentStockStatuses();
+        return (new StatusService())->getProductStatuses();
     }
 
     public function defaultState(): ?string

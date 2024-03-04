@@ -28,7 +28,7 @@ class CategoryController extends BaseController
     /**
      * Retrieves a list of all categories.
      * 
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
@@ -39,7 +39,7 @@ class CategoryController extends BaseController
      * Creates a new category with the given details.
      * 
      * @param CategoryRequest $request The request object containing category details.
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(CategoryRequest $request)
     {
@@ -52,7 +52,7 @@ class CategoryController extends BaseController
      * Displays the specified category by slug.
      * 
      * @param string $slug The slug identifier of the category to display.
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(string $slug)
     {
@@ -66,7 +66,7 @@ class CategoryController extends BaseController
      * 
      * @param CategoryRequest $request The request object containing updated category details.
      * @param string $id The unique identifier of the category to update.
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(CategoryRequest $request, string $id)
     {
@@ -79,7 +79,7 @@ class CategoryController extends BaseController
      * Deletes the specified category by slug.
      * 
      * @param string $slug The slug identifier of the category to delete.
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(string $slug)
     {

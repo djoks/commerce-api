@@ -31,7 +31,8 @@ class SupplierController extends BaseController
     /**
      * Retrieves a list of all suppliers.
      *
-     * @return \Illuminate\Http\Response Returns the API response with a list of all suppliers.
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * Returns the API response with a list of all suppliers.
      */
     public function index()
     {
@@ -42,7 +43,7 @@ class SupplierController extends BaseController
      * Creates a new supplier with the provided details.
      *
      * @param SupplierCreateRequest $request The request object containing the details for the new supplier.
-     * @return \Illuminate\Http\Response Returns the API response with the result of the supplier creation.
+     * @return \Illuminate\Http\JsonResponse Returns the API response with the result of the supplier creation.
      */
     public function store(SupplierCreateRequest $request)
     {
@@ -55,7 +56,7 @@ class SupplierController extends BaseController
      * Displays the details of a specific supplier identified by ID.
      *
      * @param string $id The unique identifier of the supplier to display.
-     * @return \Illuminate\Http\Response Returns the API response with the details of the specified supplier.
+     * @return \Illuminate\Http\JsonResponse Returns the API response with the details of the specified supplier.
      */
     public function show(string $id)
     {
@@ -69,7 +70,7 @@ class SupplierController extends BaseController
      *
      * @param SupplierUpdateRequest $request The request object containing the updated details for the supplier.
      * @param string $id The unique identifier of the supplier to be updated.
-     * @return \Illuminate\Http\Response Returns the API response with the result of the supplier update.
+     * @return \Illuminate\Http\JsonResponse Returns the API response with the result of the supplier update.
      */
     public function update(SupplierUpdateRequest $request, string $id)
     {
@@ -79,11 +80,10 @@ class SupplierController extends BaseController
     }
 
     /**
-     * Updates the details of an existing supplier.
+     * Removes a specific supplier from the system.
      *
-     * @param SupplierUpdateRequest $request The request object containing the updated details for the supplier.
-     * @param string $id The unique identifier of the supplier to be updated.
-     * @return \Illuminate\Http\Response Returns the API response with the result of the supplier update.
+     * @param string $id The unique identifier of the supplier to delete.
+     * @return \Illuminate\Http\JsonResponse Returns the API response with the result of the supplier deletion.
      */
     public function destroy(string $id)
     {

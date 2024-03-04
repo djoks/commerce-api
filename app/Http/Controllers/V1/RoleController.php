@@ -30,7 +30,8 @@ class RoleController extends BaseController
      * Utilizes the RoleService to fetch and return all roles currently defined within the system. 
      * This method is responsible for providing an overview of all roles, aiding in role management and assignment tasks.
      *
-     * @return \Illuminate\Http\Response Returns the API response with a list of roles.
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * Returns the API response with a list of roles.
      */
     public function index()
     {

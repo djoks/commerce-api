@@ -31,7 +31,7 @@ class AuthController extends BaseController
      * Registers a new user.
      *
      * @param RegisterRequest $request The registration request with user details.
-     * @return \Illuminate\Http\Response A standardized API response with registration outcome.
+     * @return \Illuminate\Http\JsonResponse A standardized API response with registration outcome.
      */
     public function register(RegisterRequest $request)
     {
@@ -44,7 +44,7 @@ class AuthController extends BaseController
      * Verifies a user's email.
      *
      * @param VerifyRequest $request The verification request with necessary parameters.
-     * @return \Illuminate\Http\Response A standardized API response with verification outcome.
+     * @return \Illuminate\Http\JsonResponse A standardized API response with verification outcome.
      */
     public function verify(VerifyRequest $request)
     {
@@ -57,7 +57,7 @@ class AuthController extends BaseController
      * Logs in a user.
      *
      * @param LoginRequest $request The login request with credentials.
-     * @return \Illuminate\Http\Response A standardized API response with login outcome.
+     * @return \Illuminate\Http\JsonResponse A standardized API response with login outcome.
      */
     public function login(LoginRequest $request)
     {
@@ -69,7 +69,7 @@ class AuthController extends BaseController
     /**
      * Logs out the current user.
      *
-     * @return \Illuminate\Http\Response A standardized API response with logout outcome.
+     * @return \Illuminate\Http\JsonResponse A standardized API response with logout outcome.
      */
     public function logout()
     {

@@ -31,7 +31,7 @@ class BillingController extends BaseController
      * Retrieves a list of billing records.
      * 
      * @param Request $request The incoming request instance.
-     * @return \Illuminate\Http\Response Returns a list of billing records.
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection Returns a list of billing records.
      */
     public function index(Request $request)
     {
@@ -42,7 +42,7 @@ class BillingController extends BaseController
      * Creates a new billing record.
      * 
      * @param BillingRequest $request The request object containing billing details.
-     * @return \Illuminate\Http\Response Returns the response after creating a billing record.
+     * @return \Illuminate\Http\JsonResponse Returns the response after creating a billing record.
      */
     public function store(BillingRequest $request)
     {
@@ -57,7 +57,7 @@ class BillingController extends BaseController
      * Displays a specific billing record.
      * 
      * @param string $id The unique identifier of the billing record.
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(string $id)
     {
@@ -71,7 +71,7 @@ class BillingController extends BaseController
      * 
      * @param BillingRequest $request The request object containing updated billing details.
      * @param string $id The unique identifier of the billing record to update.
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(BillingRequest $request, string $id)
     {
@@ -84,7 +84,7 @@ class BillingController extends BaseController
      * Deletes a specific billing record.
      * 
      * @param string $id The unique identifier of the billing record to delete.
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(string $id)
     {

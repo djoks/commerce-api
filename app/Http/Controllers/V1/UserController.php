@@ -34,7 +34,8 @@ class UserController extends BaseController
      * Retrieves a list of all users.
      *
      * @param Request $request The request object, potentially containing filters and pagination.
-     * @return \Illuminate\Http\Response Returns the API response with a list of users.
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * Returns the API response with a list of users.
      */
     public function index(Request $request)
     {
@@ -45,7 +46,7 @@ class UserController extends BaseController
      * Creates a new user with the provided details.
      *
      * @param UserRequest $request The request object containing the details for the new user.
-     * @return \Illuminate\Http\Response Returns the API response with the result of the user creation.
+     * @return \Illuminate\Http\JsonResponse Returns the API response with the result of the user creation.
      */
     public function store(UserRequest $request)
     {
@@ -58,7 +59,7 @@ class UserController extends BaseController
      * Displays the details of a specific user.
      *
      * @param string $id The unique identifier of the user.
-     * @return \Illuminate\Http\Response Returns the API response with the details of the specified user.
+     * @return \Illuminate\Http\JsonResponse Returns the API response with the details of the specified user.
      */
     public function show(string $id)
     {
@@ -72,7 +73,7 @@ class UserController extends BaseController
      *
      * @param UserRequest $request The request object containing updated user details.
      * @param string $id The unique identifier of the user to update.
-     * @return \Illuminate\Http\Response Returns the API response with the result of the user update.
+     * @return \Illuminate\Http\JsonResponse Returns the API response with the result of the user update.
      */
     public function update(UserRequest $request, string $id)
     {
@@ -85,7 +86,7 @@ class UserController extends BaseController
      * Removes a specific user from the system.
      *
      * @param string $id The unique identifier of the user to delete.
-     * @return \Illuminate\Http\Response Returns the API response with the result of the user deletion.
+     * @return \Illuminate\Http\JsonResponse Returns the API response with the result of the user deletion.
      */
     public function destroy(string $id)
     {
@@ -99,7 +100,7 @@ class UserController extends BaseController
      *
      * @param UserStatusRequest $request The request object containing the new status.
      * @param string $id The unique identifier of the user whose status is to be updated.
-     * @return \Illuminate\Http\Response Returns the API response with the result of the status update.
+     * @return \Illuminate\Http\JsonResponse Returns the API response with the result of the status update.
      */
     public function updateStatus(UserStatusRequest $request, string $id)
     {
@@ -113,7 +114,7 @@ class UserController extends BaseController
      *
      * @param UserRoleRequest $request The request object containing the new role.
      * @param string $id The unique identifier of the user whose role is to be updated.
-     * @return \Illuminate\Http\Response Returns the API response with the result of the role update.
+     * @return \Illuminate\Http\JsonResponse Returns the API response with the result of the role update.
      */
     public function updateRole(UserRoleRequest $request, string $id)
     {
@@ -126,7 +127,7 @@ class UserController extends BaseController
      * Updates the password for the currently authenticated user.
      *
      * @param UpdatePasswordRequest $request The request object containing the new password details.
-     * @return \Illuminate\Http\Response Returns the API response with the result of the password update.
+     * @return \Illuminate\Http\JsonResponse Returns the API response with the result of the password update.
      */
     public function updatePassword(UpdatePasswordRequest $request)
     {
